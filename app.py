@@ -5,10 +5,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 app = Flask(__name__)
-CORS(app, resources={r"/recommend/*": {"origins": "https://lucent-muffin-530d09.netlify.app"}})
+CORS(app, resources={r"/recommend/*": {"origins": "https://stellular-starship-b0abdd.netlify.app"}})  # Allow your frontend origin
 
-
-df = pd.read_csv('datasets/amazon.csv')  # Replace with your dataset file path
+# Sample DataFrame (Replace with your actual dataset)
+df = pd.read_csv(r'C:\Users\yaswa\OneDrive\Desktop\yash\Webdev\class_projects\bda\server\amazon.csv')  # Replace with your dataset file path
 
 # Preprocessing: Fill missing values if necessary
 df['category'] = df['category'].fillna('')
@@ -28,7 +28,7 @@ tfidf_matrix = tfidf.fit_transform(df['product_description'])
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
 # Function to recommend products
-def recommend_products(product_id, top_n=5):
+def recommend_products(product_id, top_n):
     try:
         # Ensure product_id is a string and match it with the dataframe
         idx = df[df['product_id'] == product_id].index[0]
@@ -54,11 +54,12 @@ def recommend_products(product_id, top_n=5):
 @app.route('/recommend', methods=['GET'])
 def recommend():
     product_id = request.args.get('product_id', type=str)  # Ensure product_id is treated as a string
-    
+    num_of_products = request.args.get('num_of_products', type=int, default=5)  # Default is 5, but dynamic
+
     if not product_id:
         return jsonify({"error": "Product ID is required"}), 400
 
-    recommended_products = recommend_products(product_id)
+    recommended_products = recommend_products(product_id, num_of_products)
 
     if "error" in recommended_products:
         return jsonify(recommended_products), 500
