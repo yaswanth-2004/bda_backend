@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 app = Flask(__name__)
-CORS(app, resources={r"/recommend/*": {"origins": "https://stellular-starship-b0abdd.netlify.app"}})  # Allow your frontend origin
+CORS(app, resources={r"/recommend/*": {"origins": "https://lucent-muffin-530d09.netlify.app"}})  # Allow your frontend origin
 
 # Sample DataFrame (Replace with your actual dataset)
 df = pd.read_csv('datasets/amazon.csv')  # Replace with your dataset file path
