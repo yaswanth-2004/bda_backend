@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/recommend/*": {"origins": "https://stellular-starship-b0abdd.netlify.app"}})  # Allow your frontend origin
 
 # Sample DataFrame (Replace with your actual dataset)
-df = pd.read_csv('datasets\amazon.csv')  # Replace with your dataset file path
+df = pd.read_csv('datasets/amazon.csv')  # Replace with your dataset file path
 
 # Preprocessing: Fill missing values if necessary
 df['category'] = df['category'].fillna('')
